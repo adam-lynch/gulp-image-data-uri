@@ -1,9 +1,6 @@
 gulp-image-data-uri [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 =====================
 
-Not ready yet 
-===
-
 A [Gulp](http://github.com/gulpjs/gulp) plugin for converting images to inline data-URIs. Intended to be a simple single-purpose wrapper for [heldr/datauri](https://github.com/heldr/datauri).
 
 # Installation
@@ -31,16 +28,15 @@ For example output, see [test/expected](test/expected). See [Examples](#examples
 
 ### customClass
 
-An optional function. If not passed, the class added is just the file's basename.
+An optional function. If omitted, the class added is just the file's basename.
 
-The function is called with two arguments; the default class name and the [Vinyl](http://github.com/wearefractal/vinyl) file object. See [Examples](#examples) for more information.
-
-The function must *return* the new class (string). 
+The function is called with two arguments; the default class name and the [Vinyl](http://github.com/wearefractal/vinyl) file object. It must *return* the new class (string). See [Examples](#examples) for more information.
 
 
 # Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
+
 
 # Examples
 
@@ -94,7 +90,7 @@ gulp.task('prepare', function() {
 gulp.task('default', ['prepare']);
 ```                     
 
-## Only convert certain file types
+## Including / excluding certain images
 
 Use [gulp-filter](https://github.com/sindresorhus/gulp-filter);
 
@@ -111,7 +107,7 @@ gulp.task('prepare', function() {
         .pipe(imageDataURI()) 
         .pipe(gulp.dest('./css')) // put the CSS generated somewhere
         .pipe(pngFilter.restore()) 
-        .pipe(gulp.dest('./dist')); // put the images somewhere else
+        .pipe(gulp.dest('./dist')); // also put all of the images somewhere else
 });
 
 gulp.task('default', ['prepare']);
