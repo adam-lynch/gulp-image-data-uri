@@ -1,5 +1,4 @@
 through = require 'through2'
-fs = require 'fs'
 path = require 'path'
 DataURI = require 'datauri'
 gutil = require 'gulp-util'
@@ -31,8 +30,6 @@ module.exports = (options) ->
         className = options.customClass className, file if options.customClass?
 
         css = new Buffer dataURI.getCss className
-
-        fs.writeFileSync basename, new Buffer css
 
         if options.concatFilename
             concatenated += css
