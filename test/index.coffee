@@ -39,6 +39,8 @@ describe 'gulp-platform-overrides', ->
     it "lf", (done) -> test 'lf', done
     it "crlf", (done) -> test 'crlf', done
     it "cr", (done) -> test 'cr', done
+#    it 'a', ->
+#        fs.writeFileSync './test/expected/basic/double_gulp.css', new Buffer eol.auto fs.readFileSync('./test/expected/basic/double_gulp.css').toString()
 
 
 #    it "should convert images to data URI CSS, one output file per input", (done) ->
