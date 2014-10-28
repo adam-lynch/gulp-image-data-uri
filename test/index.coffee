@@ -31,13 +31,13 @@ describe 'gulp-platform-overrides', ->
                 globToVinyl './test/expected/basic/' + basename, (err, expectedFiles) ->
                     throw err if err
                     assert.fail null, null, "'expected/basic/#{basename}' not found" unless expectedFiles.length
-                    a = normalizeLineEndings(resultFile.contents.toString()).substr(0, 10)
-                    b = normalizeLineEndings(expectedFiles[0].contents.toString()).substr(0, 10)
+                    a = normalizeLineEndings(resultFile.contents.toString()) #.substr(0, 10)
+                    b = normalizeLineEndings(expectedFiles[0].contents.toString()) #.substr(0, 10)
 
-                    console.log a
-                    console.log b
+#                    console.log a
+#                    console.log b
 
-                    expect(a).to.equal b
+                    expect(a === b).to.equal true
                     numberOfResultFiles++
                     done() if numberOfResultFiles is fixtures.length
 
