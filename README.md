@@ -29,8 +29,10 @@ For example output, see [test/expected](test/expected). See [Examples](#examples
 ### customClass
 
 An optional function. If not passed, the class added is just the file's basename.
-The function called with two arguments; the default class name and the [Vinyl](http://github.com/wearefractal/vinyl) file object. See [Examples](#examples) for more information.
-To override the class, the function must *return* the new class string. 
+
+The function is called with two arguments; the default class name and the [Vinyl](http://github.com/wearefractal/vinyl) file object. See [Examples](#examples) for more information.
+
+The function must *return* the new class (string). 
 
 
 # Contributing
