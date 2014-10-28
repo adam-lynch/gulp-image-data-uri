@@ -37,7 +37,7 @@ describe 'gulp-platform-overrides', ->
 #                    console.log a
 #                    console.log b
 
-                    expect(a == b).to.equal true
+                    expect(a).to.equal b
                     numberOfResultFiles++
                     done() if numberOfResultFiles is fixtures.length
 

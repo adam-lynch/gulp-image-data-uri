@@ -1,6 +1,5 @@
 through = require 'through2'
 path = require 'path'
-fs = require 'fs'
 DataURI = require 'datauri'
 gutil = require 'gulp-util'
 PluginError = gutil.PluginError
@@ -22,17 +21,15 @@ module.exports = (options) ->
             return
 
         dataURI = new DataURI()
-        dataURI.format path.basename(file), file.contents.toString()
+        dataURI.format path.basename(file.path), file.contents.toString()
 
         basename = path.basename file.path, path.extname file.path
         className = basename
         className = options.customClass className, file if options.customClass?
 
+
         file.contents = new Buffer dataURI.getCss className
         file.path = path.join path.dirname(file.path), basename + '.css'
-
-        if basename is 'double_gulp'
-            fs.writeFileSync basename, file.contents
 
         this.push file
         cb()
