@@ -27,7 +27,7 @@ describe 'gulp-platform-overrides', ->
                 globToVinyl './test/expected/basic/' + basename, (err, expectedFiles) ->
                     throw err if err
                     assert.fail null, null, "'expected/basic/#{basename}' not found" unless expectedFiles.length
-                    expect(eol.auto resultFile.contents.toString()).to.equal eol.auto expectedFiles[0].contents.toString()
+                    expect(eol.lf resultFile.contents.toString()).to.equal eol.lf expectedFiles[0].contents.toString()
                     numberOfResultFiles++
                     done() if numberOfResultFiles is fixtures.length
 
@@ -43,7 +43,7 @@ describe 'gulp-platform-overrides', ->
 
             stream.on 'data', (resultFile) ->
                 expect(resultFile.path).to.equal fixture.path
-                expect(eol.auto resultFile.contents.toString()).to.equal eol.auto fixture.contents.toString()
+                expect(eol.lf resultFile.contents.toString()).to.equal eol.lf fixture.contents.toString()
                 done()
 
 
@@ -68,7 +68,7 @@ describe 'gulp-platform-overrides', ->
                     globToVinyl './test/expected/customClass/' + basename, (err, expectedFiles) ->
                         throw err if err
                         assert.fail null, null, "'expected/customClass/#{basename}' not found" unless expectedFiles.length
-                        expect(eol.auto resultFile.contents.toString()).to.equal eol.auto expectedFiles[0].contents.toString()
+                        expect(eol.lf resultFile.contents.toString()).to.equal eol.lf expectedFiles[0].contents.toString()
                         numberOfResultFiles++
                         done() if numberOfResultFiles is fixtures.length
 
@@ -82,7 +82,7 @@ describe 'gulp-platform-overrides', ->
                     expect(file.path).to.equal path.resolve inputFilePath
 
                     inputFileContents = fs.readFileSync(inputFilePath).toString()
-                    expect(eol.auto file.contents.toString()).to.equal eol.auto inputFileContents
+                    expect(eol.lf file.contents.toString()).to.equal eol.lf inputFileContents
 
                     return 'prefix-' + className
 
