@@ -16,7 +16,7 @@ describe 'gulp-platform-overrides', ->
 
         stream = imageDataURI()
 
-        globToVinyl ['./test/fixtures/js.png', '!**/empty.png'], (err, fixtures) ->
+        globToVinyl ['./test/fixtures/*', '!**/empty.png'], (err, fixtures) ->
             throw err if err
             fixtures.forEach (fixture) ->
                 stream.write fixture
