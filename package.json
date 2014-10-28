@@ -34,7 +34,8 @@
     "gulp-mocha": "~1.1.1",
     "chai": "~1.9.2",
     "glob-to-vinyl": "0.0.1",
-    "coffee-script": "~1.8.0"
+    "coffee-script": "~1.8.0",
+    "eol": "~0.2.0"
   },
   "dependencies": {
     "through2": "~0.6.3",
