@@ -4,7 +4,7 @@
   "description": "Converts images to data URIs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -16,15 +16,29 @@
     "data-uri",
     "data",
     "URI",
-    "URI",
     "CSS",
+    "base64",
     "picture",
-    "base64"
+    "inline"
   ],
   "author": "Adam Lynch <contact@adamlynch.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/adam-lynch/gulp-image-data-uri/issues"
   },
-  "homepage": "https://github.com/adam-lynch/gulp-image-data-uri"
+  "homepage": "https://github.com/adam-lynch/gulp-image-data-uri",
+  "devDependencies": {
+    "gulp": "~3.8.9",
+    "gulp-coffee": "~2.2.0",
+    "gulp-load-plugins": "~0.7.0",
+    "gulp-mocha": "~1.1.1",
+    "chai": "~1.9.2",
+    "glob-to-vinyl": "0.0.1",
+    "coffee-script": "~1.8.0"
+  },
+  "dependencies": {
+    "through2": "~0.6.3",
+    "gulp-util": "~3.0.1",
+    "datauri": "~0.5.5"
+  }
 }
