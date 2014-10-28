@@ -8,9 +8,11 @@ pluginName = 'gulp-image-data-uri'
 module.exports = (options) ->
 
     options = {} unless options?
+    concatenated = ''
+    firstFile = null
 
-    through.obj (file, enc, cb) ->
-        # pass through null filese
+    each = (file, enc, cb) ->
+        # pass through null files
         if file.isNull()
             cb null, file
             return
@@ -27,10 +29,26 @@ module.exports = (options) ->
         className = basename
         className = options.customClass className, file if options.customClass?
 
+        css = new Buffer dataURI.getCss className
 
-        file.contents = new Buffer dataURI.getCss className
-        file.path = path.join path.dirname(file.path), basename + '.css'
+        if options.concatFilename
+            concatenated += css
+            firstFile = file unless firstFile
+        else
+            file.contents = css
+            file.path = path.join path.dirname(file.path), basename + '.css'
+            this.push file
 
-        this.push file
         cb()
-        return
+
+    end = ->
+        if options.concatFilename
+            concatenatedFile = firstFile.clone
+                contents: false
+            concatenatedFile.path = path.join firstFile.base, options.concatFilename
+            concatenatedFile.contents = new Buffer concatenated
+            this.push concatenatedFile
+
+        this.emit 'end'
+
+    through.obj each, end
