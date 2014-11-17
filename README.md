@@ -131,7 +131,7 @@ Create an [issue](https://github.com/adam-lynch/gulp-image-data-uri/issues) / [p
 [travis-url]: http://travis-ci.org/adam-lynch/gulp-image-data-uri
 [travis-image]: http://img.shields.io/travis/adam-lynch/gulp-image-data-uri.svg?style=flat
 
-[appveyor-url]: https://ci.appveyor.com/project/adam-lynch/platform-overrides/branch/master
+[appveyor-url]: https://ci.appveyor.com/project/adam-lynch/gulp-image-data-uri/branch/master
 [appveyor-image]: https://ci.appveyor.com/api/projects/status/f34nrrstjmctvuj0/branch/master?svg=true
 
 [depstat-url]: https://david-dm.org/adam-lynch/gulp-image-data-uri
