@@ -1,5 +1,9 @@
-gulp-image-data-uri [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
-=====================
+gulp-image-data-uri 
+==========
+
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Windows Build Status][appveyor-image]][appveyor-url] [![Dependency Status][depstat-image]][depstat-url] 
+
+---
 
 A [Gulp](http://github.com/gulpjs/gulp) plugin for converting images to inline data-URIs. Intended to be a simple single-purpose wrapper for [heldr/datauri](https://github.com/heldr/datauri).
 
@@ -126,6 +130,9 @@ Create an [issue](https://github.com/adam-lynch/gulp-image-data-uri/issues) / [p
 
 [travis-url]: http://travis-ci.org/adam-lynch/gulp-image-data-uri
 [travis-image]: http://img.shields.io/travis/adam-lynch/gulp-image-data-uri.svg?style=flat
+
+[appveyor-url]: https://ci.appveyor.com/project/adam-lynch/platform-overrides/branch/master
+[appveyor-image]: https://ci.appveyor.com/api/projects/status/f34nrrstjmctvuj0/branch/master?svg=true
 
 [depstat-url]: https://david-dm.org/adam-lynch/gulp-image-data-uri
 [depstat-image]: https://david-dm.org/adam-lynch/gulp-image-data-uri.svg?style=flat
