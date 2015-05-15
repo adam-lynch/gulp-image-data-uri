@@ -40,6 +40,6 @@
   "dependencies": {
     "through2": "~0.6.3",
     "gulp-util": "~3.0.1",
-    "datauri": "~0.5.5"
+    "datauri": "~0.7.1"
   }
 }
