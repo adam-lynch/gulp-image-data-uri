@@ -4,6 +4,7 @@
   "description": "Converts images to inline data URIs",
   "main": "index.js",
   "scripts": {
+    "prepublish": "npm test && gulp compile",
     "test": "gulp test"
   },
   "repository": {
