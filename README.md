@@ -38,7 +38,7 @@ The function is called with two arguments; the default class name and the [Vinyl
 
 ### template
 
-An optional object. See the [Custom CSS examples](#custom-CSS-templates) below.
+An optional object. See the [Custom CSS template examples](#custom-CSS-templates) below.
 
 #### template.file
 
