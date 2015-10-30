@@ -38,7 +38,7 @@ The function is called with two arguments; the default class name and the [Vinyl
 
 ### template
 
-An optional object. See the [Custom CSS examples](#custom-CSS) below.
+An optional object. See the [Custom CSS examples](#custom-CSS-templates) below.
 
 #### template.file
 
@@ -55,6 +55,8 @@ The `className` and `dataURISchema` variables will always be passed to your temp
 - `className` is the name of the file or if you use the `customClass` option then it's whatever your function returns.
 - `dataURISchema` is the data URI.
 
+Note: `classNameSuffix` is also reserved (by a module used underneath) but don't use it.
+
 ### template.variables
 
 An optional object of variable names to variables like this:
@@ -65,7 +67,7 @@ An optional object of variable names to variables like this:
 }
 ```
 
-These will be passed to your template along with the `className` and `dataURISchema` variables this module gives you (these are reserved variables).
+These will be passed to your template along with the `className`, `dataURISchema` and `classNameSuffix` variables this module gives you (these are reserved variables).
 
 ### template.engine
 
@@ -79,240 +81,27 @@ An optional function which accepts which accepts the the template content (strin
 
 Some templating engines does not have a shorthand to compile + render at the same call. In this specific cases we can create a template wrapper as the example bellow:
 
-# Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md)
-
 
 # Examples
 
-## Example output
-
 For example output, see [test/expected](test/expected).
 
-## Combining into one CSS file
+- [Combining into one CSS file](examples/combine-into-one-css-file.md)
+- [Custom classes](examples/custom-classes.md)
+- [Including / excluding certain images](examples/including-or-excluding-certain-images.md)
 
-Use [gulp-concat](https://github.com/wearefractal/gulp-concat);
+## Custom CSS templates
 
-```javascript   
-var gulp = require('gulp');
-var imageDataURI = require('gulp-image-data-uri');
-var concat = require('gulp-concat');
+These examples expand on the [Combining into one CSS file](examples/combine-into-one-css-file.md) example but you don't have to concatenate them if you like.
 
-gulp.task('prepare', function() {
-    gulp.src('./images/*')
-        .pipe(imageDataURI()) 
-        .pipe(concat('inline-images.css')) 
-        .pipe(gulp.dest('./dist'));
-});
+- [Custom template](examples/custom-template.md)
+- [Custom template with variables](examples/custom-template-with-variables.md)
+- [Custom template and templating engine](examples/custom-template-and-templating-engine.md)
+- [Custom template and template adapter](examples/custom-template-and-template-adapter.md)
 
-gulp.task('default', ['prepare']);
-``` 
+# Contributing
 
-## Custom classes
-
-```javascript   
-var gulp = require('gulp');
-var imageDataURI = require('gulp-image-data-uri');
-var path = require('path');
-
-gulp.task('prepare', function() {
-    gulp.src('./images/*')
-        .pipe(imageDataURI({
-            customClass: function(className, file){
-                var customClass = 'icons-' + className; // add prefix
-
-                // add suffix if the file is a GIF
-                if(path.extname(file.path) === '.gif'){
-                    customClass += '-gif';
-                }
-                         
-                return customClass;
-            }
-        )) 
-        .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('default', ['prepare']);
-```                     
-
-## Including / excluding certain images
-
-Use [gulp-filter](https://github.com/sindresorhus/gulp-filter);
-
-```javascript   
-var gulp = require('gulp');
-var imageDataURI = require('gulp-image-data-uri');
-var filter = require('gulp-filter');
-
-gulp.task('prepare', function() {
-    var pngFilter = filter('*.png'); 
-
-    gulp.src('./images/*')
-        .pipe(pngFilter) 
-        .pipe(imageDataURI()) 
-        .pipe(gulp.dest('./css')) // put the CSS generated somewhere
-        .pipe(pngFilter.restore()) 
-        .pipe(gulp.dest('./dist')); // also put all of the images somewhere else
-});
-
-gulp.task('default', ['prepare']);
-``` 
-
-## Custom CSS
-
-These examples expand on the [Combining into one CSS file](#combining-into-one-css-file) example but you don't have to concatenate them if you like.
-
-### Custom template
-
-```javascript
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var imageDataURI = require('gulp-image-data-uri');
-
-gulp.task('prepare', function() {
-    gulp.src('./images/*')
-        .pipe(imageDataURI({
-            template: {
-                file: './other/data-uri-template.css'
-            }
-        }))
-        .pipe(concat('inline-images.css'))
-        .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('default', ['prepare']);
-```
-
-Let's say 'data-uri-template.css' contains something like this:
-
-```css
-.{{className}} {
-    background: url("{{dataURISchema}}");
-}
-```
-
-Then the result would be something like:
-
-```css
-.image-flag {
-    background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
-}
-```
-
-
-### Custom template with variables
-
-```javascript
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var imageDataURI = require('gulp-image-data-uri');
-
-gulp.task('prepare', function() {
-    gulp.src('./images/*')
-        .pipe(imageDataURI({
-            template: {
-                file: './other/data-uri-template.css',
-                variables: {
-                    defaultMargin: '10px'
-                }
-            }
-        }))
-        .pipe(concat('inline-images.css'))
-        .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('default', ['prepare']);
-```
-
-Let's say 'data-uri-template.css' contains something like this:
-
-```css
-.{{className}} {
-    background: url("{{dataURISchema}}");
-    margin: {{defaultMargin}};
-}
-```
-
-Then the result would be something like:
-
-```css
-.image-flag {
-    background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
-    margin: 10px;
-}
-```
-
-### Custom template and templating engine
-
-In this example, [lodash](https://lodash.com/).template is used as the templating engine.
-
-```javascript
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var imageDataURI = require('gulp-image-data-uri');
-var _ = require('lodash'); // or lodash.template for custom builds
-
-gulp.task('prepare', function() {
-    gulp.src('./images/*')
-        .pipe(imageDataURI({
-            template: {
-                file: './other/data-uri-template.css',
-                engine: _.template
-            }
-        }))
-        .pipe(concat('inline-images.css'))
-        .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('default', ['prepare']);
-```
-
-Let's say 'data-uri-template.css' contains something like this:
-
-```css
-.<%= className %> {
-    background: url("<%= dataURISchema %>");
-}
-```
-
-Then the result would be something like:
-
-```css
-.image-flag {
-    background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
-}
-```
-
-### Custom template and template adapter
-
-In this example, [handlebars](http://handlebarsjs.com/) is used as the templating engine (via the `template.adapter` option).
-
-```javascript
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var imageDataURI = require('gulp-image-data-uri');
-var handlebars = require('handlebars');
-
-gulp.task('prepare', function() {
-    gulp.src('./images/*')
-        .pipe(imageDataURI({
-            template: {
-                file: './other/data-uri-template.css',
-                adapter: function (templateContent) {
-                     var tpl = handlebars.compile(templateContent);
-
-                     // bind is used to ensure scope
-                     return tpl.bind(handlebars);
-                 }
-            }
-        }))
-        .pipe(concat('inline-images.css'))
-        .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('default', ['prepare']);
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Anything missing?
 
