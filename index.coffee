@@ -11,7 +11,7 @@ module.exports = (options) ->
 
     through.obj (file, enc, cb) ->
         # pass through null files
-        if file.isNull()
+        if file.isNull() or !file.contents.toString().length
             cb null, file
             return
 

@@ -71,18 +71,20 @@ describe 'gulp-image-data-uri', ->
                     done() if numberOfResultFiles is fixtures.length
 
 
-    it "should skip empty files", (done) ->
+    it.only "should skip empty files", (done) ->
         stream = imageDataURI()
 
         globToVinyl './test/fixtures/images/empty.png', (err, fixtures) ->
             throw err if err
             fixture = fixtures[0]
+            fixturePath = fixture.path
+            fixtureContents = fixture.contents
             stream.write fixture
             stream.end()
 
             stream.on 'data', (resultFile) ->
-                expect(resultFile.path).to.equal fixture.path
-                expect(normalizeLineEndings resultFile.contents.toString()).to.equal normalizeLineEndings fixture.contents.toString()
+                expect(resultFile.path).to.equal fixturePath
+                expect(normalizeLineEndings resultFile.contents.toString()).to.equal normalizeLineEndings fixtureContents.toString()
                 done()
 
 
