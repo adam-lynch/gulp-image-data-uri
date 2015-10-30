@@ -1,6 +1,6 @@
 through = require 'through2'
 path = require 'path'
-DataURI = require 'datauri'
+DataURI = require 'datauri.template'
 gutil = require 'gulp-util'
 PluginError = gutil.PluginError
 pluginName = 'gulp-image-data-uri'
