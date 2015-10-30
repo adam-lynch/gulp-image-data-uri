@@ -37,9 +37,7 @@
     "glob-to-vinyl": "0.0.1",
     "coffee-script": "~1.10.0",
     "eol": "~0.2.0",
-    "lodash.template": "~3.6.2",
     "handlebars": "~4.0.4",
-    "lodash": "~3.10.1",
     "nunjucks": "~2.1.0"
   },
   "dependencies": {
