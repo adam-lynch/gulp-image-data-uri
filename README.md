@@ -45,12 +45,15 @@ An optional object. See the [Custom CSS examples](#custom-CSS) below.
 A string which is a path to a template file (note: this doesn't have to be a `.css` file). This must be given if you want to use a custom template. An example file:
 
 ```css
-.image-{{classNameSuffix}} {
+.{{className}} {
     background: url("{{dataURISchema}}");
 }
 ```
 
-The `classNameSuffix` and `dataURISchema` variables will always be passed to your template.
+The `className` and `dataURISchema` variables will always be passed to your template.
+
+- `className` is the name of the file or if you use the `customClass` option then it's whatever your function returns.
+- `dataURISchema` is the data URI.
 
 ### template.variables
 
@@ -62,7 +65,7 @@ An optional object of variable names to variables like this:
 }
 ```
 
-These will be passed to your template along with the `classNameSuffix` and `dataURISchema` variables this module gives you (these are reserved variables).
+These will be passed to your template along with the `className` and `dataURISchema` variables this module gives you (these are reserved variables).
 
 ### template.engine
 
@@ -184,7 +187,7 @@ gulp.task('default', ['prepare']);
 Let's say 'data-uri-template.css' contains something like this:
 
 ```css
-.image-{{classNameSuffix}} {
+.{{className}} {
     background: url("{{dataURISchema}}");
 }
 ```
@@ -225,7 +228,7 @@ gulp.task('default', ['prepare']);
 Let's say 'data-uri-template.css' contains something like this:
 
 ```css
-.image-{{classNameSuffix}} {
+.{{className}} {
     background: url("{{dataURISchema}}");
     margin: {{defaultMargin}};
 }
@@ -268,7 +271,7 @@ gulp.task('default', ['prepare']);
 Let's say 'data-uri-template.css' contains something like this:
 
 ```css
-.image-<%= classNameSuffix %> {
+.<%= className %> {
     background: url("<%= dataURISchema %>");
 }
 ```

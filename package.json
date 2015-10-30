@@ -38,11 +38,13 @@
     "coffee-script": "~1.10.0",
     "eol": "~0.2.0",
     "lodash.template": "~3.6.2",
-    "handlebars": "~4.0.4"
+    "handlebars": "~4.0.4",
+    "lodash": "~3.10.1",
+    "nunjucks": "~2.1.0"
   },
   "dependencies": {
     "through2": "~2.0.0",
     "gulp-util": "~3.0.6",
-    "datauri.template": "0.0.1"
+    "datauri.template": "git://github.com/adam-lynch/datauri.template#fixed_for_gulp_data_image_uri"
   }
 }

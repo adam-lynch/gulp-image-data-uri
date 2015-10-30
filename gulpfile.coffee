@@ -13,3 +13,4 @@ gulp.task 'test', ->
     gulp.src 'test/*.coffee'
         .pipe $.mocha
             reporter: 'spec'
+            bail: true

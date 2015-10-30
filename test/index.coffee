@@ -2,7 +2,7 @@ chai = require 'chai'
 expect = chai.expect
 assert = chai.assert
 eol = require 'eol'
-lodash_template = require 'lodash.template'
+nunjucks = require 'nunjucks'
 handlebars = require 'handlebars'
 fs = require 'fs'
 path = require 'path'
@@ -164,6 +164,31 @@ describe 'gulp-image-data-uri', ->
                         numberOfResultFiles++
                         done() if numberOfResultFiles is fixtures.length
 
+        it "should accept a custom template and a customClass at the same time", (done) ->
+            stream = imageDataURI
+                customClass: (className, file) -> "prefix-#{className}"
+                template:
+                    file: './test/fixtures/templates/template.css'
+
+            globToVinyl ['./test/fixtures/images/*', '!**/empty.png'], (err, fixtures) ->
+                throw err if err
+                fixtures.forEach (fixture) ->
+                    stream.write fixture
+                stream.end()
+
+                numberOfResultFiles = 0
+
+                stream.on 'data', (resultFile) ->
+                    basename = path.basename resultFile.path
+                    expect(path.extname resultFile.path).to.equal '.css'
+
+                    globToVinyl './test/expected/template/customClass/' + basename, (err, expectedFiles) ->
+                        throw err if err
+                        assert.fail null, null, "'expected/template/customClass/#{basename}' not found" unless expectedFiles.length
+                        expect(normalizeLineEndings resultFile.contents.toString()).to.equal normalizeLineEndings expectedFiles[0].contents.toString()
+                        numberOfResultFiles++
+                        done() if numberOfResultFiles is fixtures.length
+
 
         it "should accept a custom template with variables", (done) ->
             stream = imageDataURI
@@ -195,8 +220,8 @@ describe 'gulp-image-data-uri', ->
         it "should accept a custom template and templating engine", (done) ->
             stream = imageDataURI
                 template:
-                    file: './test/fixtures/templates/template.lodash.css'
-                    engine: lodash_template
+                    file: './test/fixtures/templates/template.nunjucks.css'
+                    engine: nunjucks
 
             globToVinyl ['./test/fixtures/images/*', '!**/empty.png'], (err, fixtures) ->
                 throw err if err
@@ -221,8 +246,8 @@ describe 'gulp-image-data-uri', ->
         it "should accept a custom template, a custom templating engine, and variables", (done) ->
             stream = imageDataURI
                 template:
-                    file: './test/fixtures/templates/variables/template.lodash.css'
-                    engine: lodash_template
+                    file: './test/fixtures/templates/variables/template.nunjucks.css'
+                    engine: nunjucks
                     variables:
                         margin: '10px'
 
@@ -250,7 +275,7 @@ describe 'gulp-image-data-uri', ->
         it "should accept a custom template and templating engine via a template adapter", (done) ->
             stream = imageDataURI
                 template:
-                    file: './test/fixtures/templates/template.css'
+                    file: './test/fixtures/templates/template.handlebars.css'
                     adapter: (templateContent) -> handlebars.compile(templateContent).bind handlebars
 
             globToVinyl ['./test/fixtures/images/*', '!**/empty.png'], (err, fixtures) ->
@@ -276,7 +301,8 @@ describe 'gulp-image-data-uri', ->
         it "should accept a custom template, variables, and a templating engine via a template adapter", (done) ->
             stream = imageDataURI
                 template:
-                    file: './test/fixtures/templates/variables/template.css'
+                    file: './test/fixtures/templates/variables/template.handlebars.css'
+                    engine: nunjucks
                     adapter: (templateContent) -> handlebars.compile(templateContent).bind handlebars
                     variables:
                         margin: '10px'
