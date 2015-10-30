@@ -1,0 +1,4 @@
+.image-{{classNameSuffix}} {
+    background: url("{{dataURISchema}}");
+    opacity: 0.5;
+}

@@ -5,7 +5,7 @@ gulp-image-data-uri
 
 ---
 
-A [Gulp](http://github.com/gulpjs/gulp) plugin for converting images to inline data-URIs. Intended to be a simple single-purpose wrapper for [heldr/datauri](https://github.com/heldr/datauri).
+A [Gulp](http://github.com/gulpjs/gulp) plugin for converting images to inline data-URIs. Intended to be a simple single-purpose wrapper for [heldr/datauri](https://github.com/heldr/datauri) (well, [datauri.template](https://github.com/heldr/datauri.template)).
 
 # Installation
 ```js
@@ -36,6 +36,45 @@ An optional function. If omitted, the class added is just the file's basename.
 
 The function is called with two arguments; the default class name and the [Vinyl](http://github.com/wearefractal/vinyl) file object. It must *return* the new class (string). See [Examples](#examples) for more information.
 
+### template
+
+An optional object. See the [Custom CSS examples](#custom-CSS) below.
+
+#### template.file
+
+A string which is a path to a template file (note: this doesn't have to be a `.css` file). This must be given if you want to use a custom template. An example file:
+
+```css
+.image-{{classNameSuffix}} {
+    background: url("{{dataURISchema}}");
+}
+```
+
+The `classNameSuffix` and `dataURISchema` variables will always be passed to your template.
+
+### template.variables
+
+An optional object of variable names to variables like this:
+
+```javascript
+{
+    defaultMargin: '.1rem'
+}
+```
+
+These will be passed to your template along with the `classNameSuffix` and `dataURISchema` variables this module gives you (these are reserved variables).
+
+### template.engine
+
+An optional function which accepts the data (as an object) as its only parameter and returns a string.
+
+Consider lodash.template as example. If your favorite templating engine does support a compile + render shorthand, you just need to point the handler after a given template path, otherwise you will need to create a template adapter.
+
+### template.adapter
+
+An optional function which accepts which accepts the the template content (string) as its only parameter and returns a template function (or engine).
+
+Some templating engines does not have a shorthand to compile + render at the same call. In this specific cases we can create a template wrapper as the example bellow:
 
 # Contributing
 
@@ -55,7 +94,7 @@ Use [gulp-concat](https://github.com/wearefractal/gulp-concat);
 ```javascript   
 var gulp = require('gulp');
 var imageDataURI = require('gulp-image-data-uri');
-var concat = require('concat');
+var concat = require('gulp-concat');
 
 gulp.task('prepare', function() {
     gulp.src('./images/*')
@@ -119,7 +158,158 @@ gulp.task('default', ['prepare']);
 
 ## Custom CSS
 
-This isn't possible right now because [heldr/datauri](https://github.com/heldr/datauri) doesn't support it. If you want this feature, comment on [heldr/datauri#6](https://github.com/heldr/datauri/issues/6).  
+These examples expand on the [Combining into one CSS file](#combining-into-one-css-file) example but you don't have to concatenate them if you like.
+
+### Custom template
+
+```javascript
+var gulp = require('gulp');
+var concat = require('gulp-concat');
+var imageDataURI = require('gulp-image-data-uri');
+
+gulp.task('prepare', function() {
+    gulp.src('./images/*')
+        .pipe(imageDataURI({
+            template: {
+                file: './other/data-uri-template.css'
+            }
+        }))
+        .pipe(concat('inline-images.css'))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('default', ['prepare']);
+```
+
+Let's say 'data-uri-template.css' contains something like this:
+
+```css
+.image-{{classNameSuffix}} {
+    background: url("{{dataURISchema}}");
+}
+```
+
+Then the result would be something like:
+
+```css
+.image-flag {
+    background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+}
+```
+
+
+### Custom template with variables
+
+```javascript
+var gulp = require('gulp');
+var concat = require('gulp-concat');
+var imageDataURI = require('gulp-image-data-uri');
+
+gulp.task('prepare', function() {
+    gulp.src('./images/*')
+        .pipe(imageDataURI({
+            template: {
+                file: './other/data-uri-template.css',
+                variables: {
+                    defaultMargin: '10px'
+                }
+            }
+        }))
+        .pipe(concat('inline-images.css'))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('default', ['prepare']);
+```
+
+Let's say 'data-uri-template.css' contains something like this:
+
+```css
+.image-{{classNameSuffix}} {
+    background: url("{{dataURISchema}}");
+    margin: {{defaultMargin}};
+}
+```
+
+Then the result would be something like:
+
+```css
+.image-flag {
+    background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+    margin: 10px;
+}
+```
+
+### Custom template and templating engine
+
+In this example, [lodash](https://lodash.com/).template is used as the templating engine.
+
+```javascript
+var gulp = require('gulp');
+var concat = require('gulp-concat');
+var imageDataURI = require('gulp-image-data-uri');
+var _ = require('lodash'); // or lodash.template for custom builds
+
+gulp.task('prepare', function() {
+    gulp.src('./images/*')
+        .pipe(imageDataURI({
+            template: {
+                file: './other/data-uri-template.css',
+                engine: _.template
+            }
+        }))
+        .pipe(concat('inline-images.css'))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('default', ['prepare']);
+```
+
+Let's say 'data-uri-template.css' contains something like this:
+
+```css
+.image-<%= classNameSuffix %> {
+    background: url("<%= dataURISchema %>");
+}
+```
+
+Then the result would be something like:
+
+```css
+.image-flag {
+    background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+}
+```
+
+### Custom template and template adapter
+
+In this example, [handlebars](http://handlebarsjs.com/) is used as the templating engine (via the `template.adapter` option).
+
+```javascript
+var gulp = require('gulp');
+var concat = require('gulp-concat');
+var imageDataURI = require('gulp-image-data-uri');
+var handlebars = require('handlebars');
+
+gulp.task('prepare', function() {
+    gulp.src('./images/*')
+        .pipe(imageDataURI({
+            template: {
+                file: './other/data-uri-template.css',
+                adapter: function (templateContent) {
+                     var tpl = handlebars.compile(templateContent);
+
+                     // bind is used to ensure scope
+                     return tpl.bind(handlebars);
+                 }
+            }
+        }))
+        .pipe(concat('inline-images.css'))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('default', ['prepare']);
+```
 
 ## Anything missing?
 
