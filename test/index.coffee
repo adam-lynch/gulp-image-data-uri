@@ -71,7 +71,7 @@ describe 'gulp-image-data-uri', ->
                     done() if numberOfResultFiles is fixtures.length
 
 
-    it.only "should skip empty files", (done) ->
+    it "should skip empty files", (done) ->
         stream = imageDataURI()
 
         globToVinyl './test/fixtures/images/empty.png', (err, fixtures) ->
