@@ -1,0 +1,5 @@
+
+.{{className}} {
+    background: url('{{dataURISchema}}');
+    opacity: 0.5;
+}
