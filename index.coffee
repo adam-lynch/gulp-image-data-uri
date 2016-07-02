@@ -49,7 +49,7 @@ module.exports = (options) ->
 
         else
             # Use our default template if none is given
-            fileContents = dataURI.template './template.css',
+            fileContents = dataURI.template path.resolve(__dirname, 'template.css'),
                 className: className
 
         file.contents = new Buffer fileContents
