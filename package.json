@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "through2": "~2.0.0",
-    "gulp-util": "~3.0.7",
+    "plugin-error": "~1.0.1",
     "datauri.template": "git://github.com/adam-lynch/datauri.template#fixed_for_gulp_data_image_uri"
   }
 }
