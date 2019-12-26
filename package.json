@@ -37,7 +37,7 @@
     "glob-to-vinyl": "~1.0.0",
     "coffee-script": "~1.10.0",
     "eol": "~0.2.0",
-    "handlebars": "~4.0.4",
+    "handlebars": "~4.5.3",
     "nunjucks": "~2.1.0"
   },
   "dependencies": {
