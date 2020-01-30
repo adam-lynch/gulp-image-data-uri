@@ -12,7 +12,26 @@ A [Gulp](http://github.com/gulpjs/gulp) plugin for converting images to inline d
 npm install gulp-image-data-uri
 ```
 
-# Usage
+# Usage for Gulp ^4.0.0
+```js
+const gulp = require('gulp'),
+      imageDataURI = require('gulp-image-data-uri');
+
+// path variables
+var imgSrc = 'src/img/*',
+    cssDist = 'dist/css/',
+
+// the task
+exports.datauri = function () {
+    return src (imgSrc)
+    .pipe(imageDataURI())
+    .pipe(dest(cssDist))
+}
+```
+
+# The Ol' fashion way
+**Reminder:** The [`task()`](https://gulpjs.com/docs/en/api/task) API isn't the recommended pattern anymore - export your tasks as shown above.
+
 ```js
 var gulp = require('gulp');
 var imageDataURI = require('gulp-image-data-uri');
