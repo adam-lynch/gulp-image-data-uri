@@ -96,9 +96,9 @@ Consider lodash.template as example. If your favorite templating engine does sup
 
 ### template.adapter
 
-An optional function which accepts which accepts the the template content (string) as its only parameter and returns a template function (or engine).
+An optional function which accepts the template content (string) as its only parameter and returns a template function (or engine).
 
-Some templating engines does not have a shorthand to compile + render at the same call. In this specific cases we can create a template wrapper as the example bellow:
+Some templating engines do not have a shorthand to compile + render at the same call. In this specific case we can create a template wrapper as the example below:
 
 
 # Examples
