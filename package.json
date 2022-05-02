@@ -1,6 +1,6 @@
 {
   "name": "gulp-image-data-uri",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Converts images to inline data URIs",
   "main": "index.js",
   "scripts": {
@@ -43,6 +43,6 @@
   "dependencies": {
     "through2": "~2.0.0",
     "gulp-util": "~3.0.7",
-    "datauri.template": "git://github.com/adam-lynch/datauri.template#fixed_for_gulp_data_image_uri"
+    "datauri.template": "adam-lynch/datauri.template#fixed_for_gulp_data_image_uri"
   }
 }
